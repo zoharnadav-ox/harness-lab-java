@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: harness-lab-java
+spec:
+  replicas: 3
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: harness-lab-java
+  template:
+    metadata:
+      labels:
+        app: harness-lab-java
+    spec:
+      containers:
+        - name: app
+          # Phase 6 replaces this literal with <+artifact.image>
+          image: docker.io/<DOCKERHUB_USER>/harness-lab-java:latest
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet: { path: /healthz, port: 8080 }
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          resources:
+            requests: { cpu: 100m, memory: 256Mi }
+            limits:   { cpu: 500m, memory: 512Mi }
