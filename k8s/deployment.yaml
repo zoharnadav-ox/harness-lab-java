@@ -15,8 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          # Phase 6 replaces this literal with <+artifact.image>
-          image: docker.io/<DOCKERHUB_USER>/harness-lab-java:latest
+          image: image: <+artifact.image>
           ports:
             - containerPort: 8080
           readinessProbe:
